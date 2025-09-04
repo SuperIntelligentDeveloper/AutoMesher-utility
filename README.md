@@ -26,4 +26,4 @@ Credits:
 - Just me, a solo developer, and Microsoft copilot, feel free to distribute, but please not commercially and please make sure you credit me for the original thing. It has a GNU GPL v3.0 license (have no idea what that is, I just picked a random license). Thanks!
 
 
-Oh yeah, there will be updates, but its not my main priority, its more of a side-quest.
+Oh yeah, there will be updates, but its not my main priority, its more of a side-quest. Adios!
