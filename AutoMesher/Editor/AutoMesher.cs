@@ -23,11 +23,17 @@ public class AutoMesher : AssetPostprocessor
             combine.Add(ci);
         }
 
+        if (combine.Count == 0)
+        {
+            Debug.LogWarning($"AutoMesher: No valid meshes found in {importedModel.name}");
+            return;
+        }
+
         Mesh combinedMesh = new Mesh();
         combinedMesh.name = "AutoMeshed_" + importedModel.name;
         combinedMesh.CombineMeshes(combine.ToArray(), true, true);
 
-        // Replace root mesh
+        // Assign to root GameObject
         MeshFilter rootFilter = importedModel.GetComponent<MeshFilter>();
         if (rootFilter == null)
             rootFilter = importedModel.AddComponent<MeshFilter>();
@@ -38,6 +44,15 @@ public class AutoMesher : AssetPostprocessor
         if (rootRenderer == null)
             rootRenderer = importedModel.AddComponent<MeshRenderer>();
 
-        Debug.Log($"AutoMesher: Combined {meshFilters.Length} meshes into one for {importedModel.name}");
+        // Save mesh as asset
+        string folder = "Assets/AutoMeshed";
+        if (!AssetDatabase.IsValidFolder(folder))
+            AssetDatabase.CreateFolder("Assets", "AutoMeshed");
+
+        string savePath = $"{folder}/AutoMeshed_{importedModel.name}.asset";
+        AssetDatabase.CreateAsset(combinedMesh, savePath);
+        AssetDatabase.SaveAssets();
+
+        Debug.Log($"AutoMesher: Combined {meshFilters.Length} meshes into one and saved to {savePath}");
     }
 }
